@@ -1,6 +1,6 @@
 require 'faker'
  
- Post.create!(
+ Post.find_or_create_by!(
   title: "My post",
   body: "This is Fabian's post"
   )
