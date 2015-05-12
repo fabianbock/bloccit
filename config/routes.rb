@@ -1,9 +1,7 @@
 Rails.application.routes.draw do
 
-  get 'questions/show'
 
-  get 'questions/edit'
-
+  devise_for :users
   resources :advertisements
 
   resources :posts, :questions
