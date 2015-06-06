@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   has_many :comments
   belongs_to :user
+  belongs_to :topic
 
  def admin?
    role == 'admin'
@@ -9,8 +10,8 @@ class Post < ActiveRecord::Base
  def moderator?
    role == 'moderator'
  end
- 
+
   default_scope { order('created_at DESC') }
-  scope :ordered_by_title { where('title ASC') }
-  scope :ordered_by_reverse_created_at { where('created_at ASC')}
+  scope :ordered_by_title, -> { order('title ASC') }
+  scope :ordered_by_reverse_created_at, -> { order('created_at DESC') }
 end

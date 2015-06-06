@@ -1,8 +1,4 @@
 class PostPolicy < ApplicationPolicy
-    def index?
-      true
-    end
-
 
   class Scope
     attr_reader :user, :scope
@@ -21,7 +17,16 @@ class PostPolicy < ApplicationPolicy
     end
   end
 
-  def update?
-    user.admin? or not post.published?
+  def index?
+    true
   end
- end
+
+  def update?
+    record.user == user || user.admin? || user.moderator?
+  end
+
+
+  def create?
+    user.present?
+  end
+end
