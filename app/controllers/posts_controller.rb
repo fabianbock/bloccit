@@ -1,8 +1,8 @@
 class PostsController < ApplicationController
-  def index
-    @posts = Post.all
-    authorize @posts
-  end
+  # def index
+  #   @posts = Post.all
+  #   authorize @posts
+  # end
 
   def show
     @post = Post.find(params[:id])
@@ -18,14 +18,15 @@ class PostsController < ApplicationController
   def create
      @topic = Topic.find(params[:topic_id])
      @post = current_user.posts.build(post_params)
+     @post.topic = @topic
      authorize @post
-     # if @post.save
-     #   flash[:notice] = "Post was saved."
-     #   redirect_to @post
-     # else
+     if @post.save
+       flash[:notice] = "Post was saved."
+       redirect_to @post
+     else
        flash.now[:error] = "There was an error saving the post. Please try again."
        render 'posts/new'
-     # end
+     end
    end
 
   def edit
@@ -49,9 +50,16 @@ class PostsController < ApplicationController
 
    private
 
-def post_params
-  params.require(:post).permit(:title, :body)
-end
+    def post_params
+      params.require(:post).permit(:title, :body)
+    end
+
+    def render_as_markdown(markdown)
+      renderer = Redcarpet::Render::HTML.new
+      extensions = {fenced_code_blocks: true}
+      redcarpet = Redcarpet::Markdown.new(renderer, extensions)
+      (redcarpet.render markdown).html_safe
+    end
 
 end
 
