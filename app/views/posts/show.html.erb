@@ -1,8 +1,18 @@
 <h1><%= render_as_markdown @post.title %></h1>
+ 
+ <%= image_tag(@post.image.tiny.url) if @post.image? %>
 
 <div class="row">
   <div class="col-md-8">
+    
+    <small>
+       <%= image_tag(@post.user.avatar.tiny.url) if @post.user.avatar? %>
+       submitted <%= time_ago_in_words(@post.created_at) %> ago by
+       <%= @post.user.name %>
+    </small>
+
     <p><%= render_as_markdown @post.body %></p>
+    
   </div>
 
   <div class="col-md-4">

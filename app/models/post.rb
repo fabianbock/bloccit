@@ -3,6 +3,7 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :topic
   has_one :summary
+  mount_uploader :image, ImageUploader
 
  def admin?
    role == 'admin'
