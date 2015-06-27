@@ -21,9 +21,9 @@ class PostPolicy < ApplicationPolicy
     true
   end
 
-  def update?
-    record.user == user || user.admin? || user.moderator?
-  end
+  #def update?
+  #  record.user == user || user.admin? || user.moderator?
+  #end
 
 
   def create?

@@ -12,6 +12,8 @@ class CommentsController < ApplicationController
     @post = Post.find(params[:post_id])
     # make a new unsaved Comment
     @comment = Comment.new
+    
+    authorize @comment
     # set the comment's body from params[:comment][:body]
     @comment.body = params[:comment][:body]
     # associate the comment with the post
@@ -19,11 +21,18 @@ class CommentsController < ApplicationController
     # associate the comment with the user
     @comment.user = current_user
     # save the comment
-    @comment.save
+    if @comment.save
+      flash[:notice] = "Comment was created."
+    else
+      flash[:error] = "There was an error saving the comment. Please try again."
+    end
     # redirect the requestor to the post's show page
     # redirect_to "/topics/#{@post.topic.id}/posts/#{@post.id}"
     # redirect_to topic_post_path(@post.topic.id, @post.id)
     # redirect_to topic_post_path(@post.topic, @post)
     redirect_to [@post.topic, @post]
   end
+
+  
+
 end
