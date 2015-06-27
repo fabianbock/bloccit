@@ -1,6 +1,6 @@
 <h1><%= render_as_markdown @post.title %></h1>
  
- <%= image_tag(@post.image.tiny.url) if @post.image? %>
+ <%= image_tag(@post.image.url) if @post.image? %>
 
 <div class="row">
   <div class="col-md-8">
@@ -20,4 +20,14 @@
       <%= link_to "Edit", edit_topic_post_path(@topic, @post), class: 'btn btn-success' %>
     <% end %>
   </div>
+
+
+  <% @comments.each do |comment| %>
+    <div class="col-md-8">
+      <%= comment.body %>
+      by: <%= comment.user.name %>
+    </div>
+    
+  <% end %>
+  <%= render partial: 'comments/form', locals: { topic: @topic, post: @post, comment: @comment } %>
 </div>

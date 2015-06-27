@@ -19,7 +19,7 @@
    <% end %>
    <%= form_group_tag(topic.errors[:public]) do %>
          <%= f.label :public %>
-           <%= f.check_box :public, class: 'checkbox', placeholder: "Public Topic" %> 
+           <%= f.check_box :public, checked: true, class: 'checkbox', placeholder: "Public Topic" %> 
     <% end %>
    <div class="form-group">
      <%= f.submit "Save", class: 'btn btn-success' %>
