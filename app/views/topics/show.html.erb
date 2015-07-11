@@ -9,6 +9,7 @@
      <p class="lead"><%= @topic.description %></p>
      <% @posts.each do |post| %>
        <div class="media">
+          <%= render partial: 'votes/voter', locals: {vote: Vote.find_or_initialize_by(post: post, user: current_user) } %>
          <div class="media-body">
            <h4 class="media-heading">
             <%= link_to (render_as_markdown post.title), [@topic, post] %>
