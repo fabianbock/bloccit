@@ -6,8 +6,6 @@ class Post < ActiveRecord::Base
   has_one :summary
   mount_uploader :image, ImageUploader
 
-  after_create :create_vote
-
  def admin?
    role == 'admin'
  end
@@ -41,12 +39,19 @@ class Post < ActiveRecord::Base
 
   validates :title, length: { minimum: 5 }, presence: true
   validates :body, length: { minimum: 20 }, presence: true
-  #validates :topic, presence: true
-  #validates :user, presence: true
-
-  private
+  validates :topic, presence: true
+  validates :user, presence: true
 
   def create_vote
     @vote = user.votes.create(value: 1, post: self)
   end
+
+  def save_with_initial_vote
+    @post = Post.new
+    ActiveRecord::Base.transaction do
+      @post.save
+      @post.create_vote
+    end
+  end
+
 end
