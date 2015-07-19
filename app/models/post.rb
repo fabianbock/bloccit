@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
+  has_many :favorites, dependent: :destroy
   belongs_to :user
   belongs_to :topic
   has_one :summary
@@ -42,16 +43,17 @@ class Post < ActiveRecord::Base
   validates :topic, presence: true
   validates :user, presence: true
 
-  def create_vote
-    @vote = user.votes.create(value: 1, post: self)
-  end
-
   def save_with_initial_vote
-    @post = Post.new
     ActiveRecord::Base.transaction do
+      @post = Post.new
       @post.save
       @post.create_vote
     end
+  end
+
+  def create_vote
+    # This is the problem area where I need help
+    @vote = current_user.votes.create(value: 1, post: self)
   end
 
 end
