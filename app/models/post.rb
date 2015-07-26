@@ -45,15 +45,14 @@ class Post < ActiveRecord::Base
 
   def save_with_initial_vote
     ActiveRecord::Base.transaction do
-      @post = Post.new
-      @post.save
-      @post.create_vote
+      self.save
+      self.create_vote
     end
   end
 
   def create_vote
     # This is the problem area where I need help
-    @vote = current_user.votes.create(value: 1, post: self)
+    user.votes.create(value: 1, post: self)
   end
 
 end

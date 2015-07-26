@@ -35,7 +35,7 @@
      </small>
    </div>
 
-   <%= render partial: 'favorites/favorite', locals: { post: @post } %>
+   <%= render partial: 'favorites/favorite', locals: { favorite: Favorite.find_or_initialize_by(post: @post, user: current_user) } %>
 
   <% @comments.each do |comment| %>
     <%= render partial: 'comments/comment', locals: { comment: comment} %>
