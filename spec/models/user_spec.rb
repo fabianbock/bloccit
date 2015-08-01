@@ -1,32 +1,21 @@
 require 'rails_helper'
- 
- describe User do
- 
-   include TestFactories
- 
-   describe "#favorited(post)" do
 
-     before do 
-      
-      @post = associated_post
-      @user = authenticated_user
-      sign_in @user
-     end
+describe User do
 
-     it "returns `nil` if the user has not favorited the post" do
-      expect( @user.favorites.find_by_post_id(@post.id) ).to be_nil
-     end
-     
-     it "returns the appropriate favorite if it exists" do
-      post :create, { post_id: @post.id }
-      expect( @user.favorites.find_by_post_id(@post.id) ).not_to be_nil
-     end
+  include TestFactories
 
-     it "returns `nil` if the user has favorited another post" do
-      post :create, { post_id: @post.id }
- 
-      expect( @user.favorites.find_by_post_id(@post2.id) ).to be_nil
-     end
+  describe "#favorited(post)" do
+    it "returns `nil` if the user has not favorited the post" do
+      user = authenticated_user
+      post = associated_post
+      expect(user.favorited(post)).to(eq(nil))
+    end
 
-   end
- end
+    it "returns the favorite when the user has favorited the post" do
+      user = authenticated_user
+      post = associated_post
+      favorite = Favorite.create!(user: user, post: post)
+      expect(user.favorited(post)).to eq(favorite)
+    end
+  end
+end

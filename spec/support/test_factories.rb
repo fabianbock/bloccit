@@ -4,7 +4,7 @@ module TestFactories
       user_options = {email: "email#{rand}@fake.com", password: 'password'}.merge(options)
       user = User.new(user_options)
       user.skip_confirmation!
-      user.save
+      user.save!
       user
   end
 
@@ -16,7 +16,10 @@ module TestFactories
        user: authenticated_user
      }.merge(options)
 
-     Post.create(post_options)
+     Post.create!(post_options)
+  end
+
+  def valid_topic
   end
 
 end
