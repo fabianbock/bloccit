@@ -2,7 +2,7 @@
   <div class="vote-arrows pull-left">
      <div><%= link_to " ", 
      up_vote_path(vote), 
-     class: "glyphicon glyphicon-chevron-up #{vote.persisted? && vote.up_vote? ? 'voted' : '' }", method: :post %></div>
+     class: up_vote_link_classes(vote.post), method: :post %></div>
      
      <div><strong><%= vote.post.points %></strong></div>
      

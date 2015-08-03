@@ -3,15 +3,15 @@ Rails.application.routes.draw do
   get 'comments/create'
 
   devise_for :users
-    resources :users, only: [:update]
+    resources :users, only: [:update, :show, :index]
   resources :advertisements
   resources :summaries
   resources :questions
   resources :topics do
-    resources :posts, except: [:index]
+    resources :posts, except: [:index], controller: 'topics/posts'
   end
    
-  resources :posts, only: [] do
+  resources :posts, only: [:index] do
     resources :comments, only: [:create, :destroy]
     resources :favorites, only: [:create, :destroy]
 
