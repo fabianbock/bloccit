@@ -15,6 +15,7 @@ gem 'rails', '4.2.1'
  gem 'mini_magick'
  gem 'newrelic_rpm'
  gem 'fog'
+ gem 'puma'
  gem 'will_paginate', '~> 3.0.5'
  group :production do
    gem 'pg'
