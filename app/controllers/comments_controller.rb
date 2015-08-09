@@ -32,7 +32,6 @@ class CommentsController < ApplicationController
     # redirect_to "/topics/#{@post.topic.id}/posts/#{@post.id}"
     # redirect_to topic_post_path(@post.topic.id, @post.id)
     # redirect_to topic_post_path(@post.topic, @post)
-    
   end
 
 
@@ -42,15 +41,18 @@ class CommentsController < ApplicationController
  
      authorize @comment
      
-     if @comment.destroy
-       flash[:notice] = "Comment was removed."
-       redirect_to [@post.topic, @post]
-     else
-       flash[:error] = "Comment couldn't be deleted. Try again."
-       redirect_to [@post.topic, @post]
-     end
-     
-   end
+    if @comment.destroy
+      flash[:notice] = "Comment was removed."
+    else
+      flash[:error] = "Comment couldn't be deleted. Try again."
+    end
+    
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
+  end
 
   
 
