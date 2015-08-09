@@ -17,6 +17,8 @@ gem 'rails', '4.2.1'
  gem 'fog'
  gem 'puma'
  gem 'will_paginate', '~> 3.0.5'
+ gem 'factory_girl_rails', '~> 4.0'
+ 
  group :production do
    gem 'pg'
    gem 'rails_12factor'

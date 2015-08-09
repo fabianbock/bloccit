@@ -1,5 +1,6 @@
 class Topic < ActiveRecord::Base
   has_many :posts, dependent: :destroy
+  before_create :set_public
 
   scope :visible_to, -> (user) {user ? all : publicly_viewable}
 
@@ -13,4 +14,11 @@ class Topic < ActiveRecord::Base
   validates :name, length: { minimum: 5 }, presence: true
   
   self.per_page = 50
+
+  def set_public
+    if self.public.nil?
+      self.public = true
+    end
+  end
+
 end
