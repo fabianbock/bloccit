@@ -7,32 +7,30 @@ class CommentsController < ApplicationController
   #   }
   # }
   # current_user = User.first
+  
   def create
-    # exchange params[:post_id] for an actual Post
     @post = Post.find(params[:post_id])
-    # make a new unsaved Comment
-    @comment = Comment.new
-    
-    authorize @comment
-    # set the comment's body from params[:comment][:body]
-    @comment.body = params[:comment][:body]
-    # associate the comment with the post
-    @comment.post = @post
-    # associate the comment with the user
+    @comments = @post.comments
+
+    @comment = Comment.new( comment_params )
     @comment.user = current_user
-    # save the comment
+    @comment.post = @post
+    @new_comment = Comment.new
+
+    authorize @comment
+
     if @comment.save
       flash[:notice] = "Comment was created."
-      redirect_to [@post.topic, @post]
     else
       flash[:error] = "There was an error saving the comment. Please try again."
-      redirect_to [@post.topic, @post]
     end
-    # redirect the requestor to the post's show page
-    # redirect_to "/topics/#{@post.topic.id}/posts/#{@post.id}"
-    # redirect_to topic_post_path(@post.topic.id, @post.id)
-    # redirect_to topic_post_path(@post.topic, @post)
-  end
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end  
+  
 
 
   def destroy
@@ -54,6 +52,10 @@ class CommentsController < ApplicationController
 
   end
 
-  
+  private
+
+    def comment_params
+      params.require(:comment).permit(:body)
+    end
 
 end

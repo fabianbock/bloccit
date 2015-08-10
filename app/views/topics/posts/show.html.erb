@@ -37,9 +37,12 @@
 
    <%= render partial: 'favorites/favorite', locals: { favorite: Favorite.find_or_initialize_by(post: @post, user: current_user) } %>
 
-  <% @comments.each do |comment| %>
-    <%= render partial: 'comments/comment', locals: { comment: comment} %>
-  <% end %>
+  <h2>Comments</h2>
+  <div class='js-comments'>
+    <% @comments.each do |comment| %>
+      <%= render partial: 'comments/comment', locals: { comment: comment} %>
+    <% end %>
+  </div>
   
 
   <% if policy(@comment).create? %>
